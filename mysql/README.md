@@ -48,6 +48,7 @@ log-error=/var/log/mysqld.log
 pid-file=/var/run/mysqld/mysqld.pid
 
 character-set-server=utf8mb4
+max_connections=2000
 
 ```
 * systemctl start mysqld.service
@@ -58,3 +59,23 @@ character-set-server=utf8mb4
 * use mysql;
 * update user set host='%' where user='root';
 * FLUSH PRIVILEGES;
+
+
+### centos 系统时间改成cst（国内）
+date查看
+
+在CentOS Linux中终端命令中执行以下命令：
+
+1).vi /etc/sysconfig/clock   #编辑时间配置文件
+
+    ZONE="Asia/Shanghai"
+
+    UTC=false                   #设置为false，硬件时钟不于utc时间一致
+
+    ARC=false
+
+2).ln -sf /usr/share/zoneinfo/Asia/Shanghai    /etc/localtime    #linux的时区设置为上海时区
+
+3).ntpdate cn.pool.ntp.org    #对准时间
+
+4)./sbin/hwclock --systohc   #设置硬件时间和系统时间一致并校准
